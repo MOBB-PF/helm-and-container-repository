@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.name }}-1st
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "{{ .Values.repo }}"
+    targetRevision: "{{ .Values.revision }}"
+    path: 1st
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-gitops
+  syncPolicy:
+    automated:
+      prune: false
+    syncOptions:
+      - Validate=false 
+      - CreateNamespace=true 
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2 
+        maxDuration: 3m

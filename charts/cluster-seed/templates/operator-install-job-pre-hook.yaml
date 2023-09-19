@@ -1,0 +1,184 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: hook-succeeded
+    helm.sh/hook-weight: "1"
+  name: operator-install-job-hook
+  namespace: openshift-operators
+spec:
+  template:
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      serviceAccount: operator-install-job-hook
+      serviceAccountName: operator-install-job-hook
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: operator-install-job-hook
+          image: registry.gitlab.com/redhat-blackbelt/helm-repository/helm-repo/build/terraform-rosa-aws-helm-cli:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: SLEEP
+            value: "5"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # openshift-gitops-operator
+              echo "openshift-gitops-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep openshift-gitops-operator| awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done              
+              # openshift-pipelines-operator
+              echo "openshift-pipelines-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep openshift-pipelines-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # kiali-ossm
+              echo "kiali-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep kiali-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # elasticsearch-operator
+              echo "elasticsearch-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep elasticsearch-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # servicemeshoperator
+              echo "servicemeshoperator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep servicemeshoperator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # jaeger-product
+              echo "jaeger-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep jaeger-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # openshift-cert-manager-operator
+              echo "cert-manager-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n cert-manager-operator | egrep cert-manager-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n cert-manager-operator $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # external-secrets-operator
+              echo "external-secrets-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n openshift-operators | egrep external-secrets-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              # rhacs-operator
+              echo "rhacs-operator operator install"
+              CSV_STATUS="Pausing $SLEEP seconds..."
+              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
+                CSV_NAME=$(oc get csv -n rhacs-operator| egrep rhacs-operator | awk '{print $1}')
+                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
+                sleep $SLEEP
+                CSV_STATUS=$( oc get csv -n rhacs-operator $CSV_NAME -o jsonpath={..status.reason} )
+              done
+              PODS=0
+              while [ "$PODS" -ne 8 ]; do
+                PODS=$(oc get pods -n openshift-pipelines|grep -i tekton|grep -i  1/1|wc -l|sed 's/ //g')
+                echo "Waiting for pods to come up for tekton. PODS = $PODS"
+                sleep 5
+              done
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-2"
+  labels:
+  name: operator-install-job-hook
+rules:
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - clusterserviceversions
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - "*"
+  resources:
+  - pods
+  verbs:
+  - list
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  labels:
+  name: operator-install-job-hook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: operator-install-job-hook
+subjects:
+- kind: ServiceAccount
+  name: operator-install-job-hook
+  namespace: openshift-operators
+---
+apiVersion: v1
+imagePullSecrets:
+- name: registry-creds
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  name: operator-install-job-hook
+  namespace: openshift-operators
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  name: registry-creds
+  namespace: openshift-operators
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: ewogICAgImF1dGhzIjogewogICAgICAgICJodHRwczovL3JlZ2lzdHJ5LmdpdGxhYi5jb20iOnsKICAgICAgICAgICAgInVzZXJuYW1lIjoicGFmb3N0ZXIiLAogICAgICAgICAgICAicGFzc3dvcmQiOiJnbHBhdC1yaHZyaUZWemdza3U3QlZzc3BjVCIsCiAgICAgICAgICAgICJlbWFpbCI6InBhZm9zdGVyQHJlZGhhdC5jb20iLAogICAgICAgICAgICAiYXV0aCI6ImNHRm1iM04wWlhJNloyeHdZWFF0Y21oMmNtbEdWbnBuYzJ0MU4wSldjM053WTFRPSIKICAgIAl9CiAgICB9Cn0K

@@ -1,0 +1,4 @@
+name: 2nd-core
+description: Actual helm charts that do the work and creates the users projects all the apps etc etc.
+apiVersion: v2
+version: 5.2.7

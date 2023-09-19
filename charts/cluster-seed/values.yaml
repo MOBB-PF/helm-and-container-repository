@@ -1,0 +1,8 @@
+projects:
+  - name: openshift-distributed-tracing
+  - name: cert-manager-operator
+  - name: rhacs-operator
+git:
+  repo: git@github.com:redhat-blackbelt/gitops
+  revision: main
+githubAws : true
