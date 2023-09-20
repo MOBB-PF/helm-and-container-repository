@@ -1,5 +1,55 @@
 apiVersion: v1
 entries:
+  argocd-payload:
+  - apiVersion: v2
+    created: "2023-09-20T00:21:25.974431785Z"
+    description: Actual helm charts that do the work and creates the users projects
+      all the apps etc etc.
+    digest: 9e0f5bf8f491f8290143a491d924ef118b68dc4a57b8349ddeea6b8300de59eb
+    name: argocd-payload
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/argocd-payload-1.0.0/argocd-payload-1.0.0.tgz
+    version: 1.0.0
+  cluster-seed:
+  - apiVersion: v2
+    created: "2023-09-20T00:21:26.118818109Z"
+    digest: 9eb37045f3afc2ae9a805462ac73675b5178947e37c40f6f207dea06e02a7a6c
+    name: cluster-seed
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/cluster-seed-1.0.0/cluster-seed-1.0.0.tgz
+    version: 1.0.0
+  customer-onboarding:
+  - apiVersion: v2
+    created: "2023-09-20T00:21:26.302930374Z"
+    digest: ec3a3a4fc800a6eab5928a2e297ae910bdf5878b7a19cd244bb4cdadadc22a07
+    name: customer-onboarding
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/customer-onboarding-1.0.0/customer-onboarding-1.0.0.tgz
+    version: 1.0.0
+  projects:
+  - apiVersion: v1
+    created: "2023-09-20T00:21:26.456310791Z"
+    digest: dd215f256ccd6282bfe0b191b1ab2807fdbc3fbf52baacdd7981c6eb08359c07
+    name: projects
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/projects-3.1.9/projects-3.1.9.tgz
+    version: 3.1.9
+  reloader:
+  - apiVersion: v1
+    appVersion: v0.0.99
+    created: "2023-09-20T00:21:26.664448039Z"
+    description: Reloader chart that runs on kubernetes
+    digest: ff9993f5345c9a88e58c56e9239bbab4497757798bda17aaf8dabd42cd52c9c0
+    home: https://github.com/stakater/Reloader
+    keywords:
+    - Reloader
+    - kubernetes
+    name: reloader
+    sources:
+    - https://github.com/stakater/Reloader
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/reloader-3.0.8/reloader-3.0.8.tgz
+    version: 3.0.8
   test:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -11,4 +61,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-09-19T07:40:51.649478063Z"
+generated: "2023-09-20T00:21:26.66445364Z"
