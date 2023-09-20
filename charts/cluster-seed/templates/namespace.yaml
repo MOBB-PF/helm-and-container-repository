@@ -1,4 +1,4 @@
-{{ range $ns := .Values.projects -}}
+{{ range $ns := .Values.namespaces -}}
 ---
 apiVersion: v1
 kind: Namespace

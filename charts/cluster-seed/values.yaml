@@ -1,16 +1,21 @@
 nameOverride: ""
 fullnameOverride: ""
-projects:
+namespaces:
   - name: openshift-distributed-tracing
   - name: cert-manager-operator
   - name: rhacs-operator
+  - name: openshift-gitops
 subscriptions:
   - name: openshift-gitops-operator
     channel: latest
+    config:
+      env:
+      - name: DISABLE_DEFAULT_ARGOCD_INSTANCE
+        value: "true"
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
-  - name: openshift-pipelines-operator
+  - name: openshift-pipelines-operator-rh
     channel: latest
     installPlanApproval: Automatic
     source: redhat-operators 
@@ -36,6 +41,7 @@ subscriptions:
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: openshift-cert-manager-operator
+    namespace: cert-manager-operator
     channel: stable-v1
     installPlanApproval: Automatic
     source: redhat-operators
@@ -46,16 +52,17 @@ subscriptions:
     source: community-operators
     sourceNamespace: openshift-marketplace
   - name: rhacs-operator
+    namespace: rhacs-operator
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
 operatorGroups:
   - name: cert-manager-operator-j92kc
+    namespace: cert-manager-operator
     targetNamespace: cert-manager-operator
   - name: rhacs-operator-jxmx6
-    targetNamespace: ~
-
+    namespace: rhacs-operator
 catalogSources: []
   # - name: operatorhubio
   #   sourceType: grpc

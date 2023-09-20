@@ -11,8 +11,13 @@ metadata:
     {{- include "operatorhub.labels" $c | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install
+    helm.sh/hook-weight: "0"
 spec:
   channel: {{ .channel }}
+  {{- if .config }}
+  config:
+{{ toYaml .config | indent 4 }}
+  {{- end }}
   name: {{ .name }}
   installPlanApproval: {{ .installPlanApproval }}
   source: {{ .source }}
@@ -31,17 +36,18 @@ metadata:
     {{- include "operatorhub.labels" $c | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install
+    helm.sh/hook-weight: "0"
 spec:
-  {{- if not (eq (.targetNamespace | default "") "all") }}
+  {{- if .targetNamespace }}
   targetNamespaces:
-  - {{ .targetNamespace | default $c.Release.Namespace }}
+  - {{ .targetNamespace }}
   {{- end }}
 {{ end }}
----
+# ---
 # {{ $c := . }}
 # {{ range .Values.catalogSources }}
 # ---
-# apiVersion: operators.coreos.com/v1alpha1
+# apiVersion: operatorsv1alpha1
 # kind: CatalogSource
 # metadata:
 #   name: {{ .name }}
@@ -57,6 +63,3 @@ spec:
 #   publisher: {{ .publisher }}
 # {{ end }}
 # ---
-
-
-
