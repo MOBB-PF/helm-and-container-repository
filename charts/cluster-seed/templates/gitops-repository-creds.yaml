@@ -17,17 +17,15 @@ type: Opaque
 apiVersion: v1
 data:
   name: aGVsbQ==
-  password: Z2l0aHViX3BhdF8xMUFaUlNGUEEwOVVZVkxIR2hMTGNIX0R3UmJlU1RSaHRNUll6ZklNWHlNd1JDdVNhR1NUclFUUTBUaGFJUG1ZTXBUTFJPWUpOVlFjWW5jbFNV
   project: ZGVmYXVsdA==
   type: aGVsbQ==
-  url: aHR0cHM6Ly9tb2JiLXBmLmdpdGh1Yi5pby9oZWxtLXJlcG9zaXRvcnkv
-  username: IGZvc3Rlci1yaA==
+  url: aHR0cHM6Ly9tb2JiLXBmLmdpdGh1Yi5pby9oZWxtLXJlcG9zaXRvcnk=
 kind: Secret
 metadata:
   annotations:
     managed-by: argocd.argoproj.io
   labels:
     argocd.argoproj.io/secret-type: repository
-  name: repo-3956390023
+  name: repo-3796014482
   namespace: openshift-gitops
 type: Opaque
