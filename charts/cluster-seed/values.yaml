@@ -1,8 +1,64 @@
+nameOverride: ""
+fullnameOverride: ""
 projects:
   - name: openshift-distributed-tracing
   - name: cert-manager-operator
   - name: rhacs-operator
-git:
-  repo: git@github.com:redhat-blackbelt/gitops
-  revision: main
-githubAws : true
+subscriptions:
+  - name: openshift-gitops-operator
+    channel: latest
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: openshift-pipelines-operator
+    channel: latest
+    installPlanApproval: Automatic
+    source: redhat-operators 
+    sourceNamespace: openshift-marketplace 
+  - name: kiali-ossm
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: elasticsearch-operator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: servicemeshoperator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: jaeger-product
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: openshift-cert-manager-operator
+    channel: stable-v1
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: external-secrets-operator
+    channel: alpha
+    installPlanApproval: Automatic
+    source: community-operators
+    sourceNamespace: openshift-marketplace
+  - name: rhacs-operator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+operatorGroups:
+  - name: cert-manager-operator-j92kc
+    targetNamespace: cert-manager-operator
+  - name: rhacs-operator-jxmx6
+    targetNamespace: ~
+
+catalogSources: []
+  # - name: operatorhubio
+  #   sourceType: grpc
+  #   image: quay.io/operator-framework/upstream-community-operators:latest
+  #   displayName: Community Operators
+  #   publisher: OperatorHub.io

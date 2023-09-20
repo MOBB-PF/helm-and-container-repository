@@ -1,86 +1,98 @@
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  name: openshift-gitops-operator
-  namespace: openshift-operators
-spec:
-  channel: latest
-  installPlanApproval: Automatic
-  name: openshift-gitops-operator
-  source: redhat-operators 
-  sourceNamespace: openshift-marketplace 
+---
+{{ $c := . }}
+{{ range .Values.subscriptions }}
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  name: openshift-pipelines-operator
-  namespace: openshift-operators
-spec:
-  channel: latest
-  name: openshift-pipelines-operator-rh
-  source: redhat-operators 
-  sourceNamespace: openshift-marketplace 
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  name: kiali-ossm
-  namespace: openshift-operators
-spec:
-  channel: stable
-  name: kiali-ossm
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  name: elasticsearch-operator
-  namespace: openshift-operators
-spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: elasticsearch-operator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  annotations:
-    helm.sh/hook: pre-install
-  name: servicemeshoperator
-  namespace: openshift-operators
-spec:
-  channel: stable
-  name: servicemeshoperator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  annotations:
-    helm.sh/hook: pre-install
+  name: {{ .name }}
+  namespace: {{ .namespace | default $c.Release.Namespace }}
   labels:
-    operators.coreos.com/jaeger-product.openshift-distributed-tracing: ""
-  name: jaeger-product
-  namespace: openshift-operators
+    {{- include "operatorhub.labels" $c | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install
 spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: jaeger-product
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  channel: {{ .channel }}
+  name: {{ .name }}
+  installPlanApproval: {{ .installPlanApproval }}
+  source: {{ .source }}
+  sourceNamespace: {{ .sourceNamespace | default $c.Release.Namespace }}
+{{ end }}
 ---
+{{ $c := . }}
+{{ range .Values.operatorGroups }}
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace | default $c.Release.Namespace }}
+  labels:
+    {{- include "operatorhub.labels" $c | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  {{- if not (eq (.targetNamespace | default "") "all") }}
+  targetNamespaces:
+  - {{ .targetNamespace | default $c.Release.Namespace }}
+  {{- end }}
+{{ end }}
+---
+{{ $c := . }}
+{{ range .Values.catalogSources }}
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace | default $c.Release.Namespace }}
+  labels:
+    {{- include "operatorhub.labels" $c | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  sourceType: {{ .sourceType }}
+  image: {{ .image }}
+  displayName: {{ .displayName }}
+  publisher: {{ .publisher }}
+{{ end }}
+---
+
+  - name: openshift-gitops-operator
+    channel: latest
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: openshift-pipelines-operator
+    channel: latest
+    installPlanApproval: Automatic
+    source: redhat-operators 
+    sourceNamespace: openshift-marketplace 
+  - name: kiali-ossm
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: elasticsearch-operator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: servicemeshoperator
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: jaeger-product
+    channel: stable
+    installPlanApproval: Automatic
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  - name: 
+    channel: 
+    installPlanApproval: 
+    source: 
+    sourceNamespace: 
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -98,6 +110,11 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace
 ---
+  - name: 
+    channel: 
+    installPlanApproval: 
+    source: 
+    sourceNamespace: 
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
@@ -111,6 +128,11 @@ spec:
   targetNamespaces:
   - cert-manager-operator
 ---
+  - name: 
+    channel: 
+    installPlanApproval: 
+    source: 
+    sourceNamespace: 
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -127,6 +149,11 @@ spec:
   source: community-operators
   sourceNamespace: openshift-marketplace
 ---
+  - name: 
+    channel: 
+    installPlanApproval: 
+    source: 
+    sourceNamespace: 
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
@@ -143,6 +170,11 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace
 ---
+  - name: 
+    channel: 
+    installPlanApproval: 
+    source: 
+    sourceNamespace: 
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
