@@ -9,7 +9,7 @@ metadata:
 spec:
   domain: "{{ $ns.domain }}"
   scope: External
-  loadBalancerType: 
+  loadBalancerType: "{{ $ns.lb }}"
   certificate:
     name: "{{ $ns.name }}"-tls
     namespace: custom-ingress
