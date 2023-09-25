@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 data:
   insecure: dHJ1ZQ==
@@ -29,3 +30,4 @@ metadata:
   name: repo-3796014482
   namespace: openshift-gitops
 type: Opaque
+---

@@ -5,6 +5,7 @@ namespaces:
   - name: cert-manager-operator
   - name: rhacs-operator
   - name: openshift-gitops
+  - name: custom-ingress
 subscriptions:
   - name: openshift-gitops-operator
     channel: latest
