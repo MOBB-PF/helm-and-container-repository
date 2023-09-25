@@ -12,6 +12,13 @@ entries:
     version: 1.0.0
   cluster-seed:
   - apiVersion: v2
+    created: "2023-09-25T06:35:14.118562354Z"
+    digest: 33fa77d6a33cc79b176e6cd36f64f413b9e05d5f5179f01252d1677c770119a4
+    name: cluster-seed
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/cluster-seed-1.0.5/cluster-seed-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2023-09-20T09:25:28.89617669Z"
     digest: a77f60b00c086ea39b5360a0a6ff16e8489e398ff3f65371d4b8c533033f4de6
     name: cluster-seed
@@ -39,6 +46,14 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-repository/releases/download/cluster-seed-1.0.0/cluster-seed-1.0.0.tgz
     version: 1.0.0
+  custom-domains:
+  - apiVersion: v2
+    created: "2023-09-25T06:35:14.330286055Z"
+    digest: b3e9c7651bd74192b0b5c7e3fe3edf8b162f4b2972d3e255be70c3739927abf9
+    name: custom-domains
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/custom-domains-1.0.0/custom-domains-1.0.0.tgz
+    version: 1.0.0
   customer-onboarding:
   - apiVersion: v2
     created: "2023-09-20T00:21:26.302930374Z"
@@ -46,6 +61,14 @@ entries:
     name: customer-onboarding
     urls:
     - https://github.com/MOBB-PF/helm-repository/releases/download/customer-onboarding-1.0.0/customer-onboarding-1.0.0.tgz
+    version: 1.0.0
+  namespaces:
+  - apiVersion: v1
+    created: "2023-09-25T06:35:14.547175047Z"
+    digest: ef88bf877702c10453a2ef09c6faae340b272e7b1df5d611f1720fe8e7af4bcf
+    name: namespaces
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/namespaces-1.0.0/namespaces-1.0.0.tgz
     version: 1.0.0
   projects:
   - apiVersion: v1
@@ -82,4 +105,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-09-20T09:25:28.896196691Z"
+generated: "2023-09-25T06:35:14.547309049Z"
