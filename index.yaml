@@ -55,6 +55,13 @@ entries:
     version: 1.0.0
   custom-domains:
   - apiVersion: v2
+    created: "2023-09-25T07:34:21.424046121Z"
+    digest: 8b49eeda6146c0959b5de6f3e5114540e86dc35f222184c2e932a330dc3e6937
+    name: custom-domains
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/custom-domains-1.0.1/custom-domains-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     created: "2023-09-25T06:35:14.330286055Z"
     digest: b3e9c7651bd74192b0b5c7e3fe3edf8b162f4b2972d3e255be70c3739927abf9
     name: custom-domains
@@ -112,4 +119,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-09-25T07:32:19.358541233Z"
+generated: "2023-09-25T07:34:21.424063323Z"
