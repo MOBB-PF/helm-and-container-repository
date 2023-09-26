@@ -3,15 +3,15 @@
 apiVersion: managed.openshift.io/v1alpha1
 kind: CustomDomain
 metadata:
-  name: "{{ $ns.name }}"
+  name: "{{ $cd.name }}"
   annotations:
     helm.sh/hook: post-install
 spec:
-  domain: "{{ $ns.route53_zone}}"
+  domain: "{{ $cd.route53_zone}}"
   scope: External
-  loadBalancerType: "{{ $ns.type }}"
+  loadBalancerType: "{{ $cd.type }}"
   certificate:
-    name: "{{ $ns.name }}"-tls
+    name: "{{ $cd.name }}"-tls
     namespace: custom-ingress
   routeSelector: 
     matchLabels:
@@ -28,7 +28,7 @@ data:
   # tls.key: "{{ $ns.tlsKeySecVal }}"
 kind: Secret
 metadata:
-  name: "{{ $ns.name }}"-tls
+  name: "{{ $cd.name }}"-tls
   namespace: custom-ingress
   annotations:
     helm.sh/hook: post-install
