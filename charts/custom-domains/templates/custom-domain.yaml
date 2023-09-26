@@ -7,9 +7,9 @@ metadata:
   annotations:
     helm.sh/hook: post-install
 spec:
-  domain: "{{ $ns.domain }}"
+  domain: "{{ $ns.route53_zone}}"
   scope: External
-  loadBalancerType: "{{ $ns.lb }}"
+  loadBalancerType: "{{ $ns.type }}"
   certificate:
     name: "{{ $ns.name }}"-tls
     namespace: custom-ingress
