@@ -1,4 +1,5 @@
 customDomains:
+  scope: Internal
   # - name: 
   #   domain:
   #   tlsKey:
