@@ -1,0 +1,5 @@
+name: foster-cd-3
+route53_zone: foster.custom.com
+type: NLB
+tlsKeySecVal: cGF1bAo=
+tlsCrtSecVal: dGVzdGEK

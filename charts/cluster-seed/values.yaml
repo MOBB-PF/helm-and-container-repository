@@ -58,6 +58,12 @@ subscriptions:
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
+  - name: cluster-logging
+    namespace: openshift-logging
+    channel: stable
+    source: redhat-operators
+    installPlanApproval: Automatic
+    sourceNamespace: openshift-marketplace
 operatorGroups:
   - name: cert-manager-operator-j92kc
     namespace: cert-manager-operator
