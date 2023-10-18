@@ -1,0 +1,9 @@
+name: hello-sm-cp
+version: v2.4
+serviceMeshMemberRoll:
+- hello-world
+gateways:
+  egress:
+    enables: false
+simpleCredentials:
+  - frontend-credential

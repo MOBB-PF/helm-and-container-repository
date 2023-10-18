@@ -1,10 +1,10 @@
 nameOverride: ""
 fullnameOverride: ""
 namespaces:
-  - name: openshift-distributed-tracing
+#  - name: openshift-distributed-tracing
   - name: cert-manager-operator
   - name: rhacs-operator
-  - name: openshift-gitops
+#  - name: openshift-gitops
   - name: custom-ingress
 subscriptions:
   - name: openshift-gitops-operator
@@ -64,12 +64,22 @@ subscriptions:
     source: redhat-operators
     installPlanApproval: Automatic
     sourceNamespace: openshift-marketplace
+  - name: costmanagement-metrics-operator
+    namespace: costmanagement-metrics-operator
+    channel: stable
+    source: redhat-operators
+    installPlanApproval: Automatic
+    sourceNamespace: openshift-marketplace
+
 operatorGroups:
   - name: cert-manager-operator-j92kc
     namespace: cert-manager-operator
     targetNamespace: cert-manager-operator
   - name: rhacs-operator-jxmx6
     namespace: rhacs-operator
+  - name: costmanagement-metrics-operator
+    namespace: costmanagement-metrics-operator
+    targetNamespace: costmanagement-metrics-operator
 catalogSources: []
   # - name: operatorhubio
   #   sourceType: grpc
