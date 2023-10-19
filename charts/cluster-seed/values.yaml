@@ -4,8 +4,9 @@ namespaces:
 #  - name: openshift-distributed-tracing
   - name: cert-manager-operator
   - name: rhacs-operator
-#  - name: openshift-gitops
+  - name: openshift-gitops
   - name: custom-ingress
+  - name: costmanagement-metrics-operator
 subscriptions:
   - name: openshift-gitops-operator
     channel: latest

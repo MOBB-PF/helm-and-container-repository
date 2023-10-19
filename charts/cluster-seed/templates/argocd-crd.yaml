@@ -9,6 +9,7 @@ metadata:
   namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
+    helm.sh/hook: post-install
 spec:
 # Adding health checks to argocd to prevent pvc resources
 # that aren't bound state from blocking deployments
