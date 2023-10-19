@@ -12,6 +12,13 @@ entries:
     version: 1.0.0
   cluster-seed:
   - apiVersion: v2
+    created: "2023-10-19T22:12:32.462747039Z"
+    digest: 07a1715a8e6d4b56690e6cb35a79dafe1de675b6c03f25d43184eef270664ae3
+    name: cluster-seed
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/cluster-seed-1.1.1/cluster-seed-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
     created: "2023-09-27T07:49:37.288159696Z"
     digest: 12095cda40b6dfbb8b3aadb6f4ef6608d3aed3c43eff778cc19f2f5bb572a059
     name: cluster-seed
@@ -132,6 +139,14 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-repository/releases/download/customer-onboarding-1.0.0/customer-onboarding-1.0.0.tgz
     version: 1.0.0
+  istio-service-mesh-control-plane:
+  - apiVersion: v1
+    created: "2023-10-19T22:12:32.687372104Z"
+    digest: 27aab8f4c10c967ffedf0228255cbeb222b2e3dd12fef3b8efe3ddb9cb6c30ef
+    name: istio-service-mesh-control-plane
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/istio-service-mesh-control-plane-1.0.0/istio-service-mesh-control-plane-1.0.0.tgz
+    version: 1.0.0
   namespaces:
   - apiVersion: v1
     created: "2023-09-25T06:35:14.547175047Z"
@@ -175,4 +190,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-09-27T07:49:37.288210796Z"
+generated: "2023-10-19T22:12:32.687432007Z"
