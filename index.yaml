@@ -141,6 +141,13 @@ entries:
     version: 1.0.0
   istio-service-mesh-control-plane:
   - apiVersion: v1
+    created: "2023-10-29T08:37:44.057826973Z"
+    digest: 5882ce70fc180e021bcef0949a74a61f536f0187b91191a4eb18d29d53fda35f
+    name: istio-service-mesh-control-plane
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/istio-service-mesh-control-plane-1.0.1/istio-service-mesh-control-plane-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v1
     created: "2023-10-19T22:12:32.687372104Z"
     digest: 27aab8f4c10c967ffedf0228255cbeb222b2e3dd12fef3b8efe3ddb9cb6c30ef
     name: istio-service-mesh-control-plane
@@ -190,4 +197,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-10-19T22:12:32.687432007Z"
+generated: "2023-10-29T08:37:44.058281785Z"
