@@ -1,0 +1,245 @@
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "2"
+  name: {{ .Values.name }}
+  namespace: {{ .Values.controlPlaneNamespace }}
+  labels:
+    istio: {{ .Values.name }}
+spec:
+  version: {{ .Values.version }}
+  proxy:
+    accessLogging:
+      file:
+        name: /dev/stdout
+    runtime:
+      container:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 128Mi
+  tracing:
+    type: Jaeger
+    sampling: 1000
+  gateways:
+    openshiftRoute:
+      enabled: false
+    {{- if .Values.gateways.egress.enabled }}
+    egress: 
+      service:
+        type: ClusterIP
+        ports:
+        - name: status-port
+          port: 15021
+          targetPort: 15021
+        - name: http2
+          port: 80
+          targetPort: 8080
+        - name: https
+          port: 443
+          targetPort: 8443
+    {{- else }}
+    egress:
+      enabled: false
+    {{- end }}
+  policy:
+    type: Istiod
+  addons:
+    grafana:
+      enabled: true
+      install:
+        config:
+          env: {}
+          envSecrets: {}
+        service:
+          ingress:
+            contextPath: /grafana
+            tls:
+              termination: reencrypt
+    jaeger:
+      name: jaeger
+      install:
+        storage:
+          type: Elasticsearch # or Memory
+          memory:
+            maxTraces: 100000
+          elasticsearch:
+            nodeCount: 3
+            storage: {}
+            redundancyPolicy: SingleRedundancy
+            indexCleaner: {}
+        ingress: {} # jaeger ingress configuration
+    kiali:
+      name: kiali
+      enabled: true
+      install:
+        dashboard:
+          viewOnly: false
+          enableGrafana: true
+          enableTracing: true
+          enablePrometheus: true
+        service:
+          ingress:
+            contextPath: /kiali
+    prometheus:
+      enabled: true
+  telemetry:
+    type: Istiod
+  runtime:
+    components:
+      pilot:
+        deployment:
+          replicas: 1
+        pod:
+          affinity: {}
+        container:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+      grafana:
+        deployment: {}
+        pod: {}
+      kiali:
+        deployment: {}
+        pod: {}
+  security:
+    identity:
+      type: ThirdParty
+      thirdParty:
+        audience: istio-ca
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "3"
+  name: default
+  namespace: {{ .Values.controlPlaneNamespace }}
+spec:
+  members:
+  - bookinfo-istio
+  - httpd-istio
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: central-gateway
+  namespace: "{{ .Values.controlPlaneNamespace }}"
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "3"
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - '*'
+    tls:
+      mode: SIMPLE
+      credentialName: istio-ingressgateway-cert
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+  name: httpd
+  namespace: "{{ .Values.controlPlaneNamespace }}"
+spec:
+  host: "{{ .Values.httpdHost }}"
+  path: /
+  port:
+    targetPort: https
+  tls:
+    termination: reencrypt
+  to:
+    kind: Service
+    name: istio-ingressgateway-custom
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+  name: bookinfo
+  namespace: "{{ .Values.controlPlaneNamespace }}"
+spec:
+  host: "{{ .Values.bookinfoHost }}"
+  path: /
+  port:
+    targetPort: https
+  tls:
+    termination: reencrypt
+  to:
+    kind: Service
+    name: istio-ingressgateway-custom
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"maistra.io/mesh-generation":"2.4.4-1-2"},"labels":{"app":"istio-ingressgateway","app.kubernetes.io/component":"istio-ingress","app.kubernetes.io/instance":"istio-controlplane","app.kubernetes.io/managed-by":"maistra-istio-operator","app.kubernetes.io/name":"istio-ingress","app.kubernetes.io/part-of":"istio","app.kubernetes.io/version":"2.4.4-1-2","istio":"ingressgateway","istio.io/rev":"httpd-sm-cp","maistra-version":"2.4.4","maistra.io/owner":"istio-controlplane","maistra.io/owner-name":"httpd-sm-cp","release":"istio"},"name":"istio-ingressgateway","namespace":"istio-controlplane","ownerReferences":[{"apiVersion":"maistra.io/v2","blockOwnerDeletion":true,"controller":true,"kind":"ServiceMeshControlPlane","name":"httpd-sm-cp","uid":"9e674471-ab29-41cb-bcdb-36e5e4a2365a"}]},"spec":{"ports":[{"name":"status-port","port":15021,"protocol":"TCP","targetPort":15021},{"name":"http2","port":80,"protocol":"TCP","targetPort":8080},{"name":"https","port":443,"protocol":"TCP","targetPort":8443}],"selector":{"app":"istio-ingressgateway","istio":"ingressgateway"},"type":"ClusterIP"}}
+    maistra.io/mesh-generation: 2.4.4-1-2
+    service.alpha.openshift.io/serving-cert-signed-by: openshift-service-serving-signer@1696724291
+    service.beta.openshift.io/serving-cert-secret-name: istio-ingressgateway-cert
+    service.beta.openshift.io/serving-cert-signed-by: openshift-service-serving-signer@1696724291
+  labels:
+    app: istio-ingressgateway-custom
+    app.kubernetes.io/component: istio-ingressgateway-custom
+    app.kubernetes.io/instance: istio-controlplane
+    app.kubernetes.io/managed-by: maistra-istio-operator
+    app.kubernetes.io/name: istio-ingressgateway-custom
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 2.4.4-1-2
+    istio: ingressgateway
+    istio.io/rev: httpd-sm-cp
+    maistra-version: 2.4.4
+    maistra.io/owner: istio-controlplane
+    maistra.io/owner-name: httpd-sm-cp
+    release: istio
+  name: istio-ingressgateway-custom
+  namespace: "{{ .Values.controlPlaneNamespace }}"
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: status-port
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - name: http2
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  sessionAffinity: None
+  type: ClusterIP

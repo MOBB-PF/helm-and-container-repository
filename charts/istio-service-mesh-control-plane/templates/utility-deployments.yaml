@@ -1,0 +1,106 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: utils-deployment
+    app.kubernetes.io/component: utils-deployment
+    app.kubernetes.io/instance: utils-deployment
+    app.kubernetes.io/part-of: utils-deployment
+    app.openshift.io/runtime: redhat
+  name: utils-deployment
+  namespace: bookinfo-istio
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utils-deployment
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: 'true'
+      labels:
+        app: utils-deployment
+        deploymentconfig: utils-deployment
+    spec:
+      containers:
+      - image: arunvelsriram/utils
+        imagePullPolicy: Always
+        name: utils-deployment
+        command:
+          - sleep
+          - "3600"
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: utils-deployment
+    app.kubernetes.io/component: utils-deployment
+    app.kubernetes.io/instance: utils-deployment
+    app.kubernetes.io/part-of: utils-deployment
+    app.openshift.io/runtime: redhat
+  name: utils-deployment
+  namespace: httpd-istio
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utils-deployment
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: 'true'
+      labels:
+        app: utils-deployment
+        deploymentconfig: utils-deployment
+    spec:
+      containers:
+      - image: arunvelsriram/utils
+        imagePullPolicy: Always
+        name: utils-deployment
+        command:
+          - sleep
+          - "3600"
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: utils-deployment
+    app.kubernetes.io/component: utils-deployment
+    app.kubernetes.io/instance: utils-deployment
+    app.kubernetes.io/part-of: utils-deployment
+    app.openshift.io/runtime: redhat
+  name: utils-deployment
+  namespace: {{ .Values.controlPlaneNamespace }}
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utils-deployment
+  template:
+    metadata:
+      labels:
+        app: utils-deployment
+        deploymentconfig: utils-deployment
+    spec:
+      containers:
+      - image: arunvelsriram/utils
+        imagePullPolicy: Always
+        name: utils-deployment
+        command:
+          - sleep
+          - "3600"
+        resources: {}

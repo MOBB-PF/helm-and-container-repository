@@ -1,0 +1,69 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: hook-succeeded
+    helm.sh/hook-weight: "4"
+  name: operator-install-job-hook
+  namespace: istio-system
+spec:
+  template:
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: operator-install-job-hook
+          image: appuio/oc
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: SLEEP
+            value: "5"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # openshift-gitops-operator
+              PODS=0
+              while [ "$PODS" -ne 1 ]; do
+                PODS=$(oc get pods |grep -i ingress|grep -i  1/1|wc -l|sed 's/ //g')
+                echo "Waiting for pods to come up for istio. PODS = $PODS"
+                sleep 5
+              done
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "2"
+  labels:
+  name: install-job-hook-istio
+rules:
+- apiGroups:
+  - "*"
+  resources:
+  - pods
+  verbs:
+  - list
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "2"
+  labels:
+  name: install-job-hook-istio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: install-job-hook-istio
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Values.controlPlaneNamespace }}
+---

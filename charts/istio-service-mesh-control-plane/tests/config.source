@@ -1,0 +1,9 @@
+export namespace_bookinfo="bookinfo-istio"
+export namespace_httpd="httpd-istio"
+export namespace_istioSystem="istio-system"
+export istio_ingressgateway_custom_ip="172.30.190.134"
+export alb_ip=52.64.175.179
+export nlb_ip="10.66.1.210"
+export utilspod_istioSystem="utils-deployment-5fd9bf7875-sqcxv"
+export httpdHost="httpd-istio.apps.foster-rosa.hr9c.p1.openshiftapps.com"
+export bookinfoHost="bookinfo-istio.apps.foster-rosa.hr9c.p1.openshiftapps.com"

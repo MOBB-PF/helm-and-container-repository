@@ -1,9 +1,8 @@
-name: hello-sm-cp
+name: central-sm-cp
 version: v2.4
-serviceMeshMemberRoll:
-- hello-world
+controlPlaneNamespace: istio-system
 gateways:
   egress:
     enables: false
-simpleCredentials:
-  - frontend-credential
+bookinfoHost: bookinfo-istio.apps.foster-rosa.hr9c.p1.openshiftapps.com
+httpdHost: httpd-istio.apps.foster-rosa.hr9c.p1.openshiftapps.com

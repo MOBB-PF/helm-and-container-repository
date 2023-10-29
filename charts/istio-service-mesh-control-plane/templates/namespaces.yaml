@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  name: bookinfo-istio
+  labels:
+    name: bookinfo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  name: httpd-istio
+  labels:
+    name: httpd-istio
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-1"
+  name: {{ .Values.controlPlaneNamespace }}
+  labels:
+    name: {{ .Values.controlPlaneNamespace }}
+
