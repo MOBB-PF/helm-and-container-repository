@@ -6,7 +6,7 @@ metadata:
     helm.sh/hook: pre-install
     helm.sh/hook-delete-policy: hook-succeeded
     helm.sh/hook-weight: "4"
-  name: operator-install-job-hook
+  name: install-job-hook
   namespace: istio-system
 spec:
   template:
@@ -25,7 +25,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              # openshift-gitops-operator
+              # check if pods are up for ingress gateway
               PODS=0
               while [ "$PODS" -ne 1 ]; do
                 PODS=$(oc get pods |grep -i ingress|grep -i  1/1|wc -l|sed 's/ //g')
