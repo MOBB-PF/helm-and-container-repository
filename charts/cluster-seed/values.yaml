@@ -1,7 +1,6 @@
 nameOverride: ""
 fullnameOverride: ""
 namespaces:
-#  - name: openshift-distributed-tracing
   - name: cert-manager-operator
   - name: rhacs-operator
   - name: openshift-gitops
@@ -10,7 +9,7 @@ namespaces:
   - name: external-secrets-operator
 subscriptions:
   - name: openshift-gitops-operator
-    namespace: openshift-operator
+    namespace: openshift-operators
     channel: latest
     config:
       env:
@@ -20,31 +19,31 @@ subscriptions:
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: openshift-pipelines-operator-rh
-    namespace: openshift-operator
+    namespace: openshift-operators
     channel: latest
     installPlanApproval: Automatic
     source: redhat-operators 
     sourceNamespace: openshift-marketplace 
   - name: kiali-ossm
-    namespace: openshift-operator
+    namespace: openshift-operators
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: elasticsearch-operator
-    namespace: openshift-operator
+    namespace: openshift-operators
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: servicemeshoperator
-    namespace: openshift-operator  
+    namespace: openshift-operators
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: jaeger-product
-    namespace: openshift-operator  
+    namespace: openshift-operators
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators

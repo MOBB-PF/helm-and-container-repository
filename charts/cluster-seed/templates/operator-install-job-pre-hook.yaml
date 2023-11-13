@@ -90,15 +90,6 @@ spec:
                 sleep $SLEEP
                 CSV_STATUS=$( oc get csv -n cert-manager-operator $CSV_NAME -o jsonpath={..status.reason} )
               done
-              # external-secrets-operator
-              echo "external-secrets-operator operator install"
-              CSV_STATUS="Pausing $SLEEP seconds..."
-              while [ "$CSV_STATUS" != "InstallSucceeded" ]; do
-                CSV_NAME=$(oc get csv -n openshift-operators | egrep external-secrets-operator | awk '{print $1}')
-                echo "Waiting for the Operator to be ready. ($CSV_STATUS)"
-                sleep $SLEEP
-                CSV_STATUS=$( oc get csv -n openshift-operators $CSV_NAME -o jsonpath={..status.reason} )
-              done
               # rhacs-operator
               echo "rhacs-operator operator install"
               CSV_STATUS="Pausing $SLEEP seconds..."
