@@ -12,6 +12,13 @@ entries:
     version: 1.0.0
   cluster-seed:
   - apiVersion: v2
+    created: "2023-11-13T06:31:55.327596043Z"
+    digest: d102e84681a9bcf94c1ef9fb26fd0bf75fcad775cfb8e262d5f505830a413f09
+    name: cluster-seed
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/cluster-seed-1.1.4/cluster-seed-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v2
     created: "2023-11-13T03:09:25.166869713Z"
     digest: 6bf3c680c5853a225298f26e151f5154113e9603c6ad40457452022ab9936f9b
     name: cluster-seed
@@ -204,4 +211,4 @@ entries:
     urls:
     - https://github.com/MOBB-PF/helm-and-container-repository/releases/download/test-0.1.4/test-0.1.4.tgz
     version: 0.1.4
-generated: "2023-11-13T03:09:25.166933762Z"
+generated: "2023-11-13T06:31:55.327674159Z"
