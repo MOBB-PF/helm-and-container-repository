@@ -43,23 +43,23 @@ spec:
   - {{ .targetNamespace }}
   {{- end }}
 {{ end }}
-# ---
-# {{ $c := . }}
-# {{ range .Values.catalogSources }}
-# ---
-# apiVersion: operatorsv1alpha1
-# kind: CatalogSource
-# metadata:
-#   name: {{ .name }}
-#   namespace: {{ .namespace | default $c.Release.Namespace }}
-#   labels:
-#     {{- include "operatorhub.labels" $c | nindent 4 }}
-#   annotations:
-#     helm.sh/hook: pre-install
-# spec:
-#   sourceType: {{ .sourceType }}
-#   image: {{ .image }}
-#   displayName: {{ .displayName }}
-#   publisher: {{ .publisher }}
-# {{ end }}
-# ---
+---
+{{ $c := . }}
+{{ range .Values.catalogSources }}
+---
+apiVersion: operatorsv1alpha1
+kind: CatalogSource
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace | default $c.Release.Namespace }}
+  labels:
+    {{- include "operatorhub.labels" $c | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  sourceType: {{ .sourceType }}
+  image: {{ .image }}
+  displayName: {{ .displayName }}
+  publisher: {{ .publisher }}
+{{ end }}
+---

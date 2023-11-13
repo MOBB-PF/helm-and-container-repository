@@ -7,8 +7,10 @@ namespaces:
   - name: openshift-gitops
   - name: custom-ingress
   - name: costmanagement-metrics-operator
+  - name: external-secrets-operator
 subscriptions:
   - name: openshift-gitops-operator
+    namespace: openshift-operator
     channel: latest
     config:
       env:
@@ -18,26 +20,31 @@ subscriptions:
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: openshift-pipelines-operator-rh
+    namespace: openshift-operator
     channel: latest
     installPlanApproval: Automatic
     source: redhat-operators 
     sourceNamespace: openshift-marketplace 
   - name: kiali-ossm
+    namespace: openshift-operator
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: elasticsearch-operator
+    namespace: openshift-operator
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: servicemeshoperator
+    namespace: openshift-operator  
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: jaeger-product
+    namespace: openshift-operator  
     channel: stable
     installPlanApproval: Automatic
     source: redhat-operators
@@ -49,6 +56,7 @@ subscriptions:
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: external-secrets-operator
+    namespace: external-secrets-operator
     channel: alpha
     installPlanApproval: Automatic
     source: community-operators

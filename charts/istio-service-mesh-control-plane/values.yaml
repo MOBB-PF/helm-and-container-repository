@@ -1,4 +1,4 @@
-name: central-sm-cp
+name: central-smcp
 version: v2.4
 controlPlaneNamespace: istio-system
 gateways:
