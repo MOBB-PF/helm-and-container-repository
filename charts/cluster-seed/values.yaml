@@ -6,7 +6,6 @@ namespaces:
   - name: openshift-gitops
   - name: custom-ingress
   - name: costmanagement-metrics-operator
-  - name: external-secrets-operator
 subscriptions:
   - name: openshift-gitops-operator
     namespace: openshift-operators
@@ -55,7 +54,7 @@ subscriptions:
     source: redhat-operators
     sourceNamespace: openshift-marketplace
   - name: external-secrets-operator
-    namespace: external-secrets-operator
+    namespace: openshift-operators
     channel: alpha
     installPlanApproval: Automatic
     source: community-operators
