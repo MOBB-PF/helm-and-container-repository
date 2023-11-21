@@ -1,0 +1,54 @@
+---
+{{ $team := .Values.team }}
+---
+{{ $defaults := .Values.defaults -}}
+---
+{{ range $infrastructure := .Values.infrastructure -}}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{ $team.name }}-{{ $team.tier }}-{{ $infrastructure.name }}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "50"
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: "{{ $team.name }}-{{ $team.tier }}-admin"
+  source:
+    repoURL: "{{ $defaults.helmRepo }}"
+    targetRevision: "{{ $infrastructure.targetRevision }}"
+    path: "{{ $infrastructure.path }}"
+    chart: "{{ $infrastructure.chart }}"
+    {{- if $infrastructure.values }}
+    helm:
+      values: | 
+        {{ toYaml $infrastructure.values | nindent 8 }}
+    {{- end }}
+  destination:
+    server: "{{ $team.server }}"
+    {{- if $infrastructure.namespace}}
+    namespace: "{{ $infrastructure.namespace  }}"
+    {{- end }}
+  syncPolicy:
+    automated: 
+      prune: false
+    syncOptions:
+    - Validate=false 
+    - CreateNamespace=true 
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s 
+        factor: 2 
+        maxDuration: 3m
+  ignoreDifferences:
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jsonPointers:
+    - /spec/versions/schema/openAPIV3Schema/spec/properties
+    - /spec/versions/
+---
+{{ end }}
+---

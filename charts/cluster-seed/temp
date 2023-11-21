@@ -1,0 +1,8 @@
+ OpenShift on AWS Overview
+- OCP on EC2
+- OpenShift Dedicated
+- ROSA
+- EKS, operational overhead, hidden costs, toil
+- OpenShift on AWS as extension of OnPrem
+- Difference in operational models of OCP on AWS and ROSA
+- Conclusions
