@@ -1,4 +1,4 @@
 name: argocd-payload
 description: Actual helm charts that do the work and creates the users projects all the apps etc etc.
 apiVersion: v2
-version: 1.0.0
+version: 1.0.1
