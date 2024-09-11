@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  namespaces:
+  - apiVersion: v1
+    created: "2024-09-11T11:45:22.40304+10:00"
+    digest: af0706ab3af4de71ccacb05562c97aaf7eee6cd56f7a403f394af4e58fc8cd9c
+    name: namespaces
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/1.0.0/namespaces-1.0.0.tgz
+    version: 1.0.0
+  reloader:
+  - apiVersion: v1
+    appVersion: v0.0.99
+    created: "2024-09-11T11:45:23.162013+10:00"
+    description: Reloader chart that runs on kubernetes
+    digest: 3e45a071f053ecb73135ca9c7d751895bbee3eb9d558cb62f9f196b5367ab3f6
+    home: https://github.com/stakater/Reloader
+    keywords:
+    - Reloader
+    - kubernetes
+    name: reloader
+    sources:
+    - https://github.com/stakater/Reloader
+    urls:
+    - https://github.com/MOBB-PF/helm-repository/releases/download/3.0.8/reloader-3.0.8.tgz
+    version: 3.0.8
+generated: "2024-09-11T11:45:23.162028+10:00"
